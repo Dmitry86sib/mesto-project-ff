@@ -1,12 +1,3 @@
-// @todo: Темплейт карточки
-
-// @todo: DOM узлы
-
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу
 
 const templateCard = document.querySelector('#card-template').content.querySelector('.card');
 const placesList = document.querySelector('.places__list');
@@ -18,11 +9,15 @@ function handleDelete(card) {
 function createCard(dataCard, { onDelete }) {
   const newCard = templateCard.cloneNode(true);
 
-  newCard.querySelector('.card__title').textContent = dataCard.name;
-  newCard.querySelector('.card__image').src = dataCard.link;
-  newCard.querySelector('.card__image').alt = dataCard.name;
+  const title = newCard.querySelector('.card__title');
+  title.textContent = dataCard.name;
 
-  newCard.querySelector('.card__delete-button').addEventListener('click', ()=> {
+  const linkCard = newCard.querySelector('.card__image');
+  linkCard.src = dataCard.link;
+  linkCard.alt = dataCard.name;
+
+  const deleteButton = newCard.querySelector('.card__delete-button');
+  deleteButton.addEventListener('click', ()=> {
     onDelete(newCard);
   })
 
