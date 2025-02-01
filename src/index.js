@@ -1,4 +1,7 @@
 
+import './pages/index.css';
+import { initialCards } from './scripts/cards.js';
+
 const templateCard = document.querySelector('#card-template').content.querySelector('.card');
 const placesList = document.querySelector('.places__list');
 
@@ -6,7 +9,11 @@ function handleDelete(card) {
   card.remove();
 }
 
-function createCard(dataCard, { onDelete }) {
+function handleLike(icon) {
+  icon.classList.toggle('card__like-button_is-active');
+}
+
+function createCard(dataCard, { onDelete, onLike }) {
   const newCard = templateCard.cloneNode(true);
 
   const title = newCard.querySelector('.card__title');
@@ -21,7 +28,17 @@ function createCard(dataCard, { onDelete }) {
     onDelete(newCard);
   })
 
+  newCard.addEventListener('click', (evt)=> {
+    if(evt.target.classList.contains('card__like-button')) {
+      onLike(evt.target);
+    }
+  }) 
+
   return newCard;
 }
 
-initialCards.forEach(elem => placesList.append(createCard(elem, { onDelete: handleDelete })));
+initialCards.forEach(elem => {
+  const card = createCard(elem,  { onDelete: handleDelete, onLike: handleLike });
+  placesList.append(card);
+});
+
