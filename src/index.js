@@ -3,7 +3,7 @@ import './pages/index.css';
 import { initialCards } from './scripts/cards.js';
 import { handleDelete, handleLike, createCard } from './components/card.js';
 import { handleClickPopupOpen, handleClickPopupClose } from './components/modal.js';
-import { openPopup, closePopup, closePopupEscape } from './components/modal.js';
+import { openPopup, closePopup } from './components/modal.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -76,5 +76,4 @@ initialCards.forEach(elem => {
 
 addEventListenersToButtons();
 handleClickPopupClose();
-closePopupEscape();
 

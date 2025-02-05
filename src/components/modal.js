@@ -11,6 +11,8 @@ export function handleClickPopupOpen(name, link) {
   captionModal.textContent = name;
 
   openPopup(popupTypeImage);
+  
+  document.addEventListener('keydown', handleClosePopupEscape);
 }
 
 export function openPopup(popup) {
@@ -20,6 +22,8 @@ export function openPopup(popup) {
 
 export function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
+
+  document.removeEventListener('keydown', handleClosePopupEscape);
 }
 
 export function handleClickPopupClose() {
@@ -34,12 +38,10 @@ export function handleClickPopupClose() {
   })
 }
 
-export function closePopupEscape() {
-  document.addEventListener('keydown', (evt)=> {
-    const popup = document.querySelector('.popup_is-opened')
+function handleClosePopupEscape(evt) {
+  const popup = document.querySelector('.popup_is-opened');
 
-    if(evt.key === "Escape" && popup) {
-      closePopup(popup);
-    }
-  })
+  if(evt.key === "Escape" && popup) {
+    closePopup(popup);
+  }
 }
