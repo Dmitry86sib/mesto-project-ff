@@ -2,7 +2,7 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards.js';
 import { handleDelete, handleLike, createCard } from './components/card.js';
-import { handleClickPopupOpen, handleClickPopupClose } from './components/modal.js';
+import { handleClickPopupClose } from './components/modal.js';
 import { openPopup, closePopup } from './components/modal.js';
 
 const placesList = document.querySelector('.places__list');
@@ -13,7 +13,7 @@ const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
-const cardHandlers = { onDelete: handleDelete, onLike: handleLike, viewImage: handleClickPopupOpen };
+const cardHandlers = { onDelete: handleDelete, onLike: handleLike, viewImage: handleOpenImagePopup };
 
 const formEditProfile = document.forms['edit-profile'];
 const inputTypeName = formEditProfile.elements.name;
@@ -22,6 +22,10 @@ const inputTypeDescription = formEditProfile.elements.description;
 const formNewPlace = document.forms['new-place'];
 const inputPlaceName = formNewPlace.elements['place-name'];
 const inputLink = formNewPlace.elements.link;
+
+const popupTypeImage = document.querySelector('.popup_type_image');
+const imageModal = popupTypeImage.querySelector('.popup__image');
+const captionModal = popupTypeImage.querySelector('.popup__caption');
 
 function addCard(evt) {
   evt.preventDefault();
@@ -40,18 +44,16 @@ function addCard(evt) {
 
 formNewPlace.addEventListener('submit', addCard);
 
-function handleFormSubmit(evt) {
+function handleFormEditProfile(evt) {
   evt.preventDefault(); 
-
-  const popup = document.querySelector('.popup');
 
   profileTitle.textContent = inputTypeName.value;
   profileDescription.textContent = inputTypeDescription.value;
 
-  closePopup(popup);
+  closePopup(popupTypeEdit);
 }
 
-formEditProfile.addEventListener('submit', handleFormSubmit);
+formEditProfile.addEventListener('submit', handleFormEditProfile);
 
 function fillProfileForm(form) {
   form.elements.name.value = profileTitle.textContent;
@@ -69,11 +71,27 @@ function addEventListenersToButtons() {
   addButton.addEventListener('click', ()=> openPopup(popupTypeNewCard));
 }
 
+function handleOpenImagePopup(name, link) {
+  imageModal.src = link;
+  imageModal.alt = name;
+  captionModal.textContent = name;
+
+  openPopup(popupTypeImage);
+}
+
+function setupPopupCloseHandlers() {
+  const popupList = document.querySelectorAll('.popup');
+
+  popupList.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt)=> handleClickPopupClose(evt, popup));
+  });
+}
+
 initialCards.forEach(elem => {
   const card = createCard(elem, cardHandlers);
   placesList.append(card);
 }); 
 
 addEventListenersToButtons();
-handleClickPopupClose();
+setupPopupCloseHandlers();
 
