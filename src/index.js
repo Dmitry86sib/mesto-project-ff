@@ -62,7 +62,7 @@ function handleAvatarSubmit(evt) {
 
   updateAvatar(avatarLink)
     .then(data => {
-      profileImage.src = data.avatar; // Обновляем аватар в профиле
+      profileImage.src = data.avatar; 
       closePopup(popupTypeAvatar);
       formNewAvatar.reset();
     })

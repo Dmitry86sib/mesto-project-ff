@@ -40,6 +40,7 @@
         <div class="popup__input-group">
           <input
             type="text"
+            pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$"
             name="name"
             class="popup__input popup__input_type_name"
             placeholder="Имя"
@@ -54,6 +55,7 @@
         <div class="popup__input-group">
           <input
             type="text"
+            pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$"
             name="description"
             class="popup__input popup__input_type_description"
             placeholder="Занятие"
@@ -77,6 +79,7 @@
         <div class="popup__input-group">
           <input
             type="text"
+            pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$"
             name="place-name"
             class="popup__input popup__input_type_card-name"
             placeholder="Название"
@@ -91,6 +94,7 @@
         <div class="popup__input-group">
           <input
             type="url"
+            pattern="(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-z]{2,6}(\/[\w.-]*)*"
             name="link"
             class="popup__input popup__input_type_url"
             placeholder="Ссылка на картинку"
@@ -115,10 +119,11 @@
   <div class="popup__content">
     <button type="button" class="popup__close"></button>
     <h3 class="popup__title">Обновить аватар</h3>
-    <form class="popup__form" name="new-avatar">
+    <form class="popup__form" name="new-avatar" novalidate>
       <div class="popup__input-group">
         <input
           type="url"
+          pattern="(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-z]{2,6}(\/[\w.-]*)*"
           name="avatar"
           class="popup__input popup__input_type_url"
           placeholder="Ссылка на картинку"

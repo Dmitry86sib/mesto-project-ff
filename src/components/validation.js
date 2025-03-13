@@ -1,6 +1,4 @@
 
-const regex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
-const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 
 function showInputError(formElement, inputElement, errorMessage, config) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -19,18 +17,14 @@ function hideInputError(formElement, inputElement, config) {
 };
 
 function checkInputValidity(formElement, inputElement, config) {
+  
   if(!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, config);
     return;
   }
-
-  if(inputElement.type === 'text' && !regex.test(inputElement.value)) {
+  
+  if(inputElement.validity.patternMismatch) {
     showInputError(formElement, inputElement, inputElement.dataset.errorMessage, config);
-    return;
-  }
-
-  if(inputElement.type === 'url' && !urlRegex.test(inputElement.value)) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, config);
     return;
   }
 
@@ -39,16 +33,8 @@ function checkInputValidity(formElement, inputElement, config) {
 };
 
 function hasInvalidInput(inputList) {
-  return inputList.some(inputElement =>{
-    if(!inputElement.validity.valid) return true;
-
-    if(inputElement.type === 'text' && !regex.test(inputElement.value)) return true;
-
-    if(inputElement.type === 'url' && !urlRegex.test(inputElement.value)) return true;
-
-    return false;
-  });
-};
+  return inputList.some(inputElement => !inputElement.validity.valid);
+}
 
 function disableSubmitButton(buttonElement, config) {
   buttonElement.classList.add(config.inactiveButtonClass);

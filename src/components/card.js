@@ -5,16 +5,23 @@ import { addLike, removeLike, deleteCard } from './api.js';
 const templateCard = document.querySelector('#card-template').content.querySelector('.card');
 
 export function handleDelete(cardId, cardElement) {
-  deleteCard(cardId) // ← Вызывает API-метод
+  deleteCard(cardId) 
     .then(() => cardElement.remove())
     .catch(err => console.log(err))
 }
 
-export const handleLike = (cardId, isLiked) => {
-  const apiCall = isLiked ? addLike(cardId) : removeLike(cardId);
+export const handleLike = (cardId, isLiked, likeButton, likeCount) => {  
+  const apiCall = isLiked ? removeLike(cardId) : addLike(cardId);
   
   return apiCall
     .then(updatedCard => {
+      if(!isLiked) {
+        likeButton.classList.add('card__like-button_is-active');
+      } else {
+        likeButton.classList.remove('card__like-button_is-active');
+      }
+      
+      likeCount.textContent = updatedCard.likes.length;
       return updatedCard; 
     })
     .catch(err => console.log(err))
@@ -52,23 +59,12 @@ export function createCard(dataCard, { onDelete, onLike, viewImage }, userId) {
   } else {
     likeButton.classList.remove('card__like-button_is-active');
   }
+  
   likeCount.textContent = dataCard.likes.length;
 
-
-  newCard.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('card__like-button')) {
-      const currentIsLiked = likeButton.classList.contains('card__like-button_is-active');
-
-      likeButton.classList.toggle('card__like-button_is-active');
-      
-      const newIsLiked = !currentIsLiked;
-  
-      onLike(dataCard._id, newIsLiked)
-        .then(updatedCard => {
-          likeCount.textContent = updatedCard.likes.length;
-        })
-        .catch(err => console.log(err))
-    }
+  likeButton.addEventListener('click', () => {
+    const isLiked = likeButton.classList.contains('card__like-button_is-active');
+    onLike(dataCard._id, isLiked, likeButton, likeCount);
   });
 
   return newCard;
