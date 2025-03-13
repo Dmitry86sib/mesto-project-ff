@@ -66,7 +66,7 @@ function handleAvatarSubmit(evt) {
       closePopup(popupTypeAvatar);
       formNewAvatar.reset();
     })
-    .catch(err => console.error(err))
+    .catch(err => console.log(err))
     .finally(()=> renderLoading(formNewAvatar, false))
 }
 
@@ -79,17 +79,15 @@ function addCard(evt) {
   const name = inputPlaceName.value;
   const link = inputLink.value;
   
-  createCardOnServer(name, link) // Отправляем данные на сервер
+  createCardOnServer(name, link) 
   .then(newCardData => {
-    const card = createCard(newCardData, cardHandlers, userId); // Создаем карточку из данных сервера
+    const card = createCard(newCardData, cardHandlers, userId); 
     placesList.prepend(card);
     closePopup(popupTypeNewCard);
     formNewPlace.reset();
     clearValidation(formNewPlace, formValidationConfig);
   })
-  .catch(err => {
-    console.error('Ошибка добавления карточки:', err);
-  })
+  .catch(err => console.log(err))
   .finally(()=> renderLoading(formNewPlace, false))
 }
 
@@ -110,7 +108,7 @@ Promise.all([getUserInfo(), getInitialCards()])
       placesList.append(card);
     });
   })
-  .catch(err => console.error('Ошибка инициализации:', err))
+  .catch(err => console.log(err))
 
 function handleFormEditProfile(evt) {
   evt.preventDefault();
@@ -126,9 +124,7 @@ function handleFormEditProfile(evt) {
       profileDescription.textContent = data.about;
       closePopup(popupTypeEdit);
     })
-    .catch(err => {
-      console.error('Ошибка:', err.message, 'Код:', err.status);
-    })
+    .catch(err => console.log(err))
     .finally(()=> renderLoading(popupTypeEdit, false))
 }
 
